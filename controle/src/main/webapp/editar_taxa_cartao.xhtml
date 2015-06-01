@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+	<ui:define name="body">
+		<h:form prependId="false">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{editarTaxaCartaoMB.insert}" rendered="#{!editarBandeiraCartaoMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{editarTaxaCartaoMB.update}" rendered="#{editarTaxaCartaoMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" rendered="#{editarTaxaCartaoMB.updateMode}" onclick="PF('confirmation').show()" type="button"
+						immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" header="#{messages['label.dialog.delete']}" showEffect="bounce"
+						hideEffect="explode" severity="alert" widgetVar="confirmation">
+						<p:commandButton value="#{messages['button.dialog.yes']}" action="#{editarTaxaCartaoMB.delete}" immediate="true" ajax="false" />
+						<p:commandButton value="#{messages['button.dialog.no']}" onclick="PF('confirmation').hide();" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['bookmark.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+					<h:outputLabel value="Id: " for="id" styleClass="text-input" />
+					<h:outputText id="id" value="#{editarTaxaCartaoMB.bean.id}" />
+					<p:message for="id" />
+					
+					<h:outputLabel value="Operadora de Cartões: " for="operadoraCartao" styleClass="text-input" />
+					<h:selectOneMenu id="operadoraCartao" value="#{editarTaxaCartaoMB.bean.operadora}" converter="baseEntityConverter">
+						<f:selectItems var="operadoraCartao" value="#{editarTaxaCartaoMB.listaOperadorasCartao}" itemLabel="#{operadoraCartao.nome}"  itemValue="#{operadoraCartao}"/>
+					</h:selectOneMenu>
+					<p:message for="operadoraCartao" />
+
+					<h:outputLabel value="Tipo do Cartão: " for="tipoCartao" styleClass="text-input" />
+					<h:selectOneMenu id="tipoCartao" value="#{editarTaxaCartaoMB.bean.tipoCartao}" >
+						<f:selectItems var="tipoCartao" value="#{cacheMB.listaTiposCartao}" itemLabel="#{tipoCartao}"  itemValue="#{tipoCartao}"/>
+					</h:selectOneMenu>
+					<p:message for="tipoCartao" />
+										
+					<h:outputLabel value="Bandeira do Cartão: " for="bandeiraCartao" styleClass="text-input" />
+					<h:selectOneMenu id="bandeiraCartao" value="#{editarTaxaCartaoMB.bean.bandeira}" converter="baseEntityConverter">
+						<f:selectItems var="bandeiraCartao" value="#{editarTaxaCartaoMB.listaBandeirasCartao}" itemLabel="#{bandeiraCartao.nome}"  itemValue="#{bandeiraCartao}"/>
+					</h:selectOneMenu>
+					<p:message for="bandeiraCartao" />
+
+					<h:outputLabel value="Prazo para Pagamento: " for="prazoPagamento" styleClass="text-input" />
+					<h:selectOneMenu id="prazoPagamento" value="#{editarTaxaCartaoMB.bean.prazoPagamento}" >
+						<f:selectItems var="prazoPagamento" value="#{cacheMB.listaPrazosPagamento}" itemLabel="#{prazoPagamento}"  itemValue="#{prazoPagamento}"/>
+					</h:selectOneMenu>
+					<p:message for="prazoPagamento" />
+					
+					<h:outputLabel value="Nº parcelas: " for="parcelas" styleClass="text-input" />
+					<h:inputText id="parcelas" value="#{editarTaxaCartaoMB.bean.parcelas}" />
+					<p:message for="parcelas" />
+
+					<h:outputLabel value="Taxa: " for="taxa" styleClass="text-input" />
+					<h:inputText id="taxa" value="#{editarTaxaCartaoMB.bean.taxa}" />
+					<p:message for="taxa" />
+									
+				</h:panelGrid>			
+			
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form>
+		<p:menubar>
+			<p:submenu label="Taxas de Cartão">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/editar_taxa_cartao.jsf" />
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/listar_taxas_cartao.jsf" />
+			</p:submenu>
+			
+			<p:submenu label="Bancos">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/editar_banco.jsf" />
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/listar_bancos.jsf" />
+			</p:submenu>
+
+			<p:submenu label="Clientes">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/editar_cliente.jsf" />
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/listar_clientes.jsf" />
+			</p:submenu>
+						
+			<p:submenu label="Vendas">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/editar_venda.jsf" />
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/listar_vendas.jsf" />
+			</p:submenu>
+			
+			<p:submenu label="Operadoras de Cartão">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/editar_operadora_cartao.jsf" />
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/listar_operadoras_cartao.jsf" />
+			</p:submenu>
+			
+			<p:submenu label="Bandeiras de Cartão">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/editar_bandeira_cartao.jsf" />
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/listar_bandeiras_cartao.jsf" />
+			</p:submenu>
+			
+			<p:menuitem value="#{messages['menu.menuitem.quit']}" url="http://www.frameworkdemoiselle.gov.br/" action="#{securityContext.logout}" />
+		</p:menubar>
+	</h:form>
+
+</ui:composition>

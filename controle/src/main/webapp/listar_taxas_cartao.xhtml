@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{listarTaxasCartaoMB.getNextView}"
+						actionListener="#{listarTaxasCartaoMB.clear}" ajax="false" />
+
+					<p:commandButton title="#{messages['button.delete']}" icon="ui-icon-trash" onclick="PF('confirmation').show();" type="button" immediate="true"
+						ajax="false" />
+
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
+
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{listarTaxasCartaoMB.deleteSelection}" actionListener="#{listarTaxasCartaoMB.clear}" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="PF('confirmation').hide();" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="list" var="bean" value="#{listarTaxasCartaoMB.resultList}">
+				<f:facet name="header">Lista de Taxas de Cartão</f:facet>
+				<p:column style="width:5%;">
+					<h:selectBooleanCheckbox value="#{listarTaxasCartaoMB.selection[bean.id]}" />
+				</p:column>
+				<p:column style="width:5%;" sortBy="#{bean.id}">
+					<f:facet name="header">#{messages['bookmark.label.id']}</f:facet>
+					<h:outputText value="#{bean.id}" />
+				</p:column>
+				<p:column sortBy="#{bean.operadora.nome}">
+					<f:facet name="header">Operadora</f:facet>
+					<h:commandLink action="#{listarTaxasCartaoMB.getNextView}" actionListener="#{listarTaxasCartaoMB.clear}">
+						<h:outputText value="#{bean.operadora.nome}" />
+						<f:param name="id" value="#{bean.id}" />
+					</h:commandLink>
+				</p:column>
+				<p:column sortBy="#{bean.bandeira.nome}">
+					<f:facet name="header">Bandeira</f:facet>
+					<h:commandLink action="#{listarTaxasCartaoMB.getNextView}" actionListener="#{listarTaxasCartaoMB.clear}">
+						<h:outputText value="#{bean.bandeira.nome}" />
+						<f:param name="id" value="#{bean.id}" />
+					</h:commandLink>
+				</p:column>
+				<p:column sortBy="#{bean.tipoCartao.descricao}">
+					<f:facet name="header">Tipo de Cartão</f:facet>
+					<h:commandLink action="#{listarTaxasCartaoMB.getNextView}" actionListener="#{listarTaxasCartaoMB.clear}">
+						<h:outputText value="#{bean.tipoCartao.descricao}" />
+						<f:param name="id" value="#{bean.id}" />
+					</h:commandLink>
+				</p:column>
+				<p:column sortBy="#{bean.parcelas}">
+					<f:facet name="header">Parcelas</f:facet>
+					<h:commandLink action="#{listarTaxasCartaoMB.getNextView}" actionListener="#{listarTaxasCartaoMB.clear}">
+						<h:outputText value="#{bean.parcelas}" />
+						<f:param name="id" value="#{bean.id}" />
+					</h:commandLink>
+				</p:column>								
+				<p:column sortBy="#{bean.taxa}">
+					<f:facet name="header">Taxa</f:facet>
+					<h:commandLink action="#{listarTaxasCartaoMB.getNextView}" actionListener="#{listarTaxasCartaoMB.clear}">
+						<h:outputText value="#{bean.taxa}" />
+						<f:param name="id" value="#{bean.id}" />
+					</h:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

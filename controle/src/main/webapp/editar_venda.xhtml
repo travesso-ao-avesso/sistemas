@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+	<ui:define name="body">
+		<h:form prependId="false">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{editarVendaMB.registrarVenda}" rendered="#{!editarVendaMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{editarVendaMB.update}" rendered="#{editarVendaMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" rendered="#{editarVendaMB.updateMode}" onclick="PF('confirmation').show()" type="button"
+						immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" header="#{messages['label.dialog.delete']}" showEffect="bounce"
+						hideEffect="explode" severity="alert" widgetVar="confirmation">
+						<p:commandButton value="#{messages['button.dialog.yes']}" action="#{editarVendaMB.delete}" immediate="true" ajax="false" />
+						<p:commandButton value="#{messages['button.dialog.no']}" onclick="PF('confirmation').hide();" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['bookmark.label']}" toggleable="true" toggleSpeed="500">
+
+				<div class="onerow">
+					<div class="col12 last">
+						<h:outputLabel value="#{messages['bookmark.label.id']}: " for="id" styleClass="text-input" />
+						<h:outputText id="id" value="#{editarVendaMB.bean.id}" />
+					</div>
+				</div>
+				
+				<div class="onerow">
+					<div class="col4">
+						<h:outputLabel value="Sequencial: " for="sequencial" styleClass="text-input" />
+						<h:inputText id="sequencial" value="#{editarVendaMB.bean.sequencial}" />
+					</div>
+					<div class="col4">
+						<h:outputLabel value="Documento: " for="documento" styleClass="text-input" />
+						<h:inputText id="documento" value="#{editarVendaMB.bean.documento}" />
+					</div>	
+					<div class="col4 last">
+						<h:outputLabel value="Data: " for="data" styleClass="text-input" />
+						<h:inputText id="data" value="#{editarVendaMB.bean.data}" >
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-3"/>
+						</h:inputText>
+					</div>
+				</div>
+
+				<p:fieldset id="fieldsetVendedores" legend="Vendedores" >
+
+					<div class="onerow">
+						<div class="col12 last">
+							<p:commandButton id="botaoAdicionarVendedor" 
+								value="Adicionar Vendedor"
+								onclick="PF('dialogAdicionarVendedor').show();" >
+							</p:commandButton>
+						</div>
+					</div>
+					
+					<div class="onerow">
+						<div class="col12 last">
+							<p:dataTable id="vendasVendedores" var="vv" value="#{editarVendaMB.vendasVendedores}">
+								<p:column>
+									<f:facet name="header">Vendedor</f:facet>
+									<h:outputText value="#{vv.vendedor.nome}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">Valor</f:facet>
+									<h:outputText value="#{vv.valor}" />
+								</p:column>
+							</p:dataTable>		
+						</div>
+					</div>
+				
+				</p:fieldset>
+				
+				<div class="onerow">
+					<div class="col12 last">
+						<h:outputLabel value="Cliente: " for="cliente" styleClass="text-input" />
+						<h:selectOneMenu id="cliente" value="#{editarVendaMB.bean.cliente}" converter="baseEntityConverter">
+							<f:selectItems var="cliente" value="#{editarVendaMB.listaClientes}" itemLabel="#{cliente.nome}"  itemValue="#{cliente}"/>
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+			</p:fieldset>
+			
+			<!-- Modal de inclusão de vendedores -->
+			<ui:include src="modal_adicionar_vendedor.xhtml" />
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

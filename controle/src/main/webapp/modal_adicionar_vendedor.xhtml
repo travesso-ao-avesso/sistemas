@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+	<p:dialog id="dialogadicionarVendedor" header="Adicionar Vendedor" 
+		styleClass="ui-dialog-topo" modal="true" dynamic="true" resizable="false"
+		widgetVar="dialogAdicionarVendedor" >
+
+		<div class="onerow">
+			<div class="col3">
+				<h:outputLabel value="Vendedor: " for="vendedor" styleClass="text-input" />
+				<h:selectOneMenu id="vendedor" value="#{editarVendaMB.vendedor}" converter="baseEntityConverter">
+					<f:selectItems var="vendedor" value="#{editarVendaMB.listaVendedores}" itemLabel="#{vendedor.apelido}"  itemValue="#{vendedor}"/>
+				</h:selectOneMenu>
+			</div>
+			<div class="col9 last">
+				<h:outputLabel value="Valor: " for="valorVenda" styleClass="text-input" />
+				<h:inputText id="valorVenda" value="#{editarVendaMB.valorVendaVendedor}" />
+			</div>
+		</div>
+		
+		<div class="onerow">
+			<div class="col12 last">
+				<p:commandButton id="botaoAdicionar" 
+					value="Adicionar"
+					action="#{editarVendaMB.onClickAdicionarVendedor()}"
+					update="fieldsetVendedores"
+					oncomplete="PF('dialogAdicionarVendedor').hide();" >
+				</p:commandButton>
+			</div>
+		</div>
+		
+	</p:dialog>
+
+</html>
