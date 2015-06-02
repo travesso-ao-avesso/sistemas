@@ -20,4 +20,8 @@ public class VendaBC extends DelegateCrud<Venda, Integer, VendaDAO> {
 		//contaReceberBC.inserirContasReceber(venda);
 	}
 	
+	public void validarInclusaoVendaVendedor(){
+		
+	}
+	
 }
