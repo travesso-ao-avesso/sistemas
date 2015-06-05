@@ -1,9 +1,15 @@
 package br.com.travesso.controle.business;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import br.com.travesso.controle.domain.Venda;
+import br.com.travesso.controle.domain.VendaVendedor;
+import br.com.travesso.controle.domain.Vendedor;
+import br.com.travesso.controle.exception.NegocioException;
 import br.com.travesso.controle.persistence.VendaDAO;
+import br.com.travesso.controle.util.ErrorMessage;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 import br.gov.frameworkdemoiselle.template.DelegateCrud;
 
@@ -12,6 +18,9 @@ public class VendaBC extends DelegateCrud<Venda, Integer, VendaDAO> {
 	
 	private static final long serialVersionUID = 1L;
 	
+//    @Inject
+//    private MessageContext messageContext;
+//	
 	@Inject
 	private ContaReceberBC contaReceberBC;
 	
@@ -20,8 +29,22 @@ public class VendaBC extends DelegateCrud<Venda, Integer, VendaDAO> {
 		//contaReceberBC.inserirContasReceber(venda);
 	}
 	
-	public void validarInclusaoVendaVendedor(){
-		
+	public void validarInclusaoVendaVendedor(Vendedor vendedor, List<VendaVendedor> vendasVendedores) throws NegocioException{
+		if (ehVendedorJaIncluido(vendedor, vendasVendedores)) {
+			throw new NegocioException(ErrorMessage.ER001);
+		}
 	}
 	
+	private boolean ehVendedorJaIncluido(Vendedor vendedor, List<VendaVendedor> vvIncluido) {
+		for (VendaVendedor vv : vvIncluido) {
+			if (vendedor != null && vendedor.equals(vv.getVendedor())) {
+				//if (vendedor.getId() == null || !vv.getVendedor().getId().equals(vendedor.getId())) {
+					return true;
+				//}
+			}
+		}
+		return false;
+	}
+	
+
 }

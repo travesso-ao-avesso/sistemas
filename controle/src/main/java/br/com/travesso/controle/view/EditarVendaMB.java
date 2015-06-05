@@ -2,9 +2,7 @@ package br.com.travesso.controle.view;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -21,7 +19,12 @@ import br.com.travesso.controle.domain.Pagamento;
 import br.com.travesso.controle.domain.Venda;
 import br.com.travesso.controle.domain.VendaVendedor;
 import br.com.travesso.controle.domain.Vendedor;
+import br.com.travesso.controle.exception.NegocioException;
+import br.com.travesso.controle.util.ManagedBeanUtil;
 import br.gov.frameworkdemoiselle.annotation.PreviousView;
+import br.gov.frameworkdemoiselle.exception.ExceptionHandler;
+import br.gov.frameworkdemoiselle.message.Message;
+import br.gov.frameworkdemoiselle.message.MessageContext;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -51,14 +54,14 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 	
 	private List<Pagamento> pagamentos;
 	
-	private Set<VendaVendedor> vendasVendedores;
+	private List<VendaVendedor> vendasVendedores;
 	
-	private BigDecimal valorVendaVendedor;	
-
+	private BigDecimal valorVendaVendedor;
+	
 	@PostConstruct
 	public void init(){
 		this.pagamentos = new ArrayList<Pagamento>();
-		this.vendasVendedores = new HashSet<VendaVendedor>();
+		this.vendasVendedores = new ArrayList<VendaVendedor>();
 	}
  
 	@Override
@@ -93,12 +96,20 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 		return this.vendaBC.load(id);
 	}
 	
-	public void onClickAdicionarVendedor(){
+	public void onClickAdicionarVendedor() throws NegocioException{
 		VendaVendedor vv = new VendaVendedor();
 		vv.setVenda(this.getBean());
 		vv.setVendedor(this.vendedor);
 		vv.setValor(this.valorVendaVendedor);
+		this.vendaBC.validarInclusaoVendaVendedor(vendedor, vendasVendedores);
 		this.vendasVendedores.add(vv);
+	}
+	
+	@ExceptionHandler
+	public void tratador(NegocioException ne){
+		for(Message msg : ne.getMessages()){
+			ManagedBeanUtil.addMessage(msg);
+		}		
 	}
 	
 	public List<Cliente> getListaClientes(){
@@ -133,11 +144,11 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 		this.pagamentos = pagamentos;
 	}
 
-	public Set<VendaVendedor> getVendasVendedores() {
+	public List<VendaVendedor> getVendasVendedores() {
 		return vendasVendedores;
 	}
 
-	public void setVendasVendedores(Set<VendaVendedor> vendasVendedores) {
+	public void setVendasVendedores(List<VendaVendedor> vendasVendedores) {
 		this.vendasVendedores = vendasVendedores;
 	}
 	

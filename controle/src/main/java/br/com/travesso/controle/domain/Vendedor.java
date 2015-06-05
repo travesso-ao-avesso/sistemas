@@ -1,7 +1,7 @@
 package br.com.travesso.controle.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +25,7 @@ public class Vendedor extends BaseEntity {
 	private String nome;
 	
     @OneToMany(mappedBy = "vendedor", cascade = {CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<VendaVendedor> vendasVendedores = new HashSet<VendaVendedor>();
+    private List<VendaVendedor> vendasVendedores = new ArrayList<VendaVendedor>();
 
 	public Vendedor() {
 		super();
@@ -58,11 +58,11 @@ public class Vendedor extends BaseEntity {
 		this.nome = nome;
 	}
 
-	public Set<VendaVendedor> getVendasVendedores() {
+	public List<VendaVendedor> getVendasVendedores() {
 		return vendasVendedores;
 	}
 
-	public void setVendasVendedores(Set<VendaVendedor> vendasVendedores) {
+	public void setVendasVendedores(List<VendaVendedor> vendasVendedores) {
 		this.vendasVendedores = vendasVendedores;
 	}
 

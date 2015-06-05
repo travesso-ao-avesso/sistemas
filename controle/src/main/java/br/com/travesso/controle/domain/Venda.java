@@ -3,9 +3,7 @@ package br.com.travesso.controle.domain;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -53,7 +51,7 @@ public class Venda extends BaseEntity {
 	private Cliente cliente;
 	
     @OneToMany(mappedBy = "venda", cascade = {CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<VendaVendedor> vendasVendedores = new HashSet<VendaVendedor>();
+    private List<VendaVendedor> vendasVendedores = new ArrayList<VendaVendedor>();
     
 	public Venda() {
 		super();
@@ -128,11 +126,11 @@ public class Venda extends BaseEntity {
 		this.cliente = cliente;
 	}
 
-	public Set<VendaVendedor> getVendasVendedores() {
+	public List<VendaVendedor> getVendasVendedores() {
 		return vendasVendedores;
 	}
 
-	public void setVendasVendedores(Set<VendaVendedor> vendasVendedores) {
+	public void setVendasVendedores(List<VendaVendedor> vendasVendedores) {
 		this.vendasVendedores = vendasVendedores;
 	}
 
