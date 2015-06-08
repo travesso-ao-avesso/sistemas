@@ -7,6 +7,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.travesso.controle.business.BandeiraCartaoBC;
 import br.com.travesso.controle.business.ClienteBC;
 import br.com.travesso.controle.business.OperadoraCartaoBC;
@@ -24,7 +26,6 @@ import br.com.travesso.controle.util.ManagedBeanUtil;
 import br.gov.frameworkdemoiselle.annotation.PreviousView;
 import br.gov.frameworkdemoiselle.exception.ExceptionHandler;
 import br.gov.frameworkdemoiselle.message.Message;
-import br.gov.frameworkdemoiselle.message.MessageContext;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -34,7 +35,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private ClienteBC clienteBC;
 
@@ -43,27 +44,27 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 
 	@Inject
 	private BandeiraCartaoBC bandeiraCartaoBC;
-	
+
 	@Inject
 	private VendedorBC vendedorBC;
-	
+
 	@Inject
-	private VendaBC vendaBC;	
-	
+	private VendaBC vendaBC;
+
 	private Vendedor vendedor;
-	
+
 	private List<Pagamento> pagamentos;
-	
+
 	private List<VendaVendedor> vendasVendedores;
-	
+
 	private BigDecimal valorVendaVendedor;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		this.pagamentos = new ArrayList<Pagamento>();
 		this.vendasVendedores = new ArrayList<VendaVendedor>();
 	}
- 
+
 	@Override
 	@Transactional
 	public String delete() {
@@ -77,7 +78,7 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 		this.vendaBC.insert(getBean());
 		return getPreviousView();
 	}
-	
+
 	@Transactional
 	public String registrarVenda() {
 		this.vendaBC.registrarVenda(getBean());
@@ -95,8 +96,8 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 	protected Venda handleLoad(Integer id) {
 		return this.vendaBC.load(id);
 	}
-	
-	public void onClickAdicionarVendedor() throws NegocioException{
+
+	public void onClickAdicionarVendedor() throws NegocioException {
 		VendaVendedor vv = new VendaVendedor();
 		vv.setVenda(this.getBean());
 		vv.setVendedor(this.vendedor);
@@ -104,28 +105,27 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 		this.vendaBC.validarInclusaoVendaVendedor(vendedor, vendasVendedores);
 		this.vendasVendedores.add(vv);
 	}
-	
+
 	@ExceptionHandler
-	public void tratador(NegocioException ne){
-		for(Message msg : ne.getMessages()){
+	public void tratador(NegocioException ne) {
+		RequestContext.getCurrentInstance().addCallbackParam(
+				"validationFailed", true);
+
+		for (Message msg : ne.getMessages()) {
 			ManagedBeanUtil.addMessage(msg);
-		}		
+		}
 	}
-	
-	public List<Cliente> getListaClientes(){
+
+	public List<Cliente> getListaClientes() {
 		return clienteBC.findAll();
 	}
 
-	public List<OperadoraCartao> getListaOperadorasCartao(){
+	public List<OperadoraCartao> getListaOperadorasCartao() {
 		return operadoraCartaoBC.findAll();
 	}
-	
-	public List<BandeiraCartao> getListaBandeirasCartao(){
+
+	public List<BandeiraCartao> getListaBandeirasCartao() {
 		return bandeiraCartaoBC.findAll();
-	}
-	
-	public void tratarVendaComMaisDeUmVendedor(){
-		
 	}
 
 	public Vendedor getVendedor() {
@@ -151,8 +151,8 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 	public void setVendasVendedores(List<VendaVendedor> vendasVendedores) {
 		this.vendasVendedores = vendasVendedores;
 	}
-	
-	public List<Vendedor> getListaVendedores(){
+
+	public List<Vendedor> getListaVendedores() {
 		return vendedorBC.findAll();
 	}
 
@@ -163,17 +163,17 @@ public class EditarVendaMB extends AbstractEditPageBean<Venda, Integer> {
 	public void setValorVendaVendedor(BigDecimal valorVendaVendedor) {
 		this.valorVendaVendedor = valorVendaVendedor;
 	}
-	
-//	public FormaPagamentoEnum[] getListaFormasPagamento(){
-//		return FormaPagamentoEnum.values();
-//	}
-//	
-//	public TipoCartaoEnum[] getListaTiposCartao(){
-//		return TipoCartaoEnum.values();
-//	}
-//	
-//	public PrazoPagamentoEnum[] getListaPrazosPagamento(){
-//		return PrazoPagamentoEnum.values();
-//	}
+
+	// public FormaPagamentoEnum[] getListaFormasPagamento(){
+	// return FormaPagamentoEnum.values();
+	// }
+	//
+	// public TipoCartaoEnum[] getListaTiposCartao(){
+	// return TipoCartaoEnum.values();
+	// }
+	//
+	// public PrazoPagamentoEnum[] getListaPrazosPagamento(){
+	// return PrazoPagamentoEnum.values();
+	// }
 
 }

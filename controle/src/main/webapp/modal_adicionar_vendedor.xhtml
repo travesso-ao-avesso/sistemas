@@ -4,20 +4,10 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" >
-	
-	<script language="javascript">
-	<![CDATA[
-	function hideDialogOnSuccess(args, dialogWidgetVar) {
-	    if (args && !args.validationFailed) {
-	    	dialogWidgetVar.hide();
-	    }
-	}
-	]]>
-	</script>
 
-	<p:dialog id="dialogadicionarVendedor" header="Adicionar Vendedor" 
-		styleClass="ui-dialog-topo" modal="true" dynamic="true" resizable="false"
-		widgetVar="dialogAdicionarVendedor" width="600" height="160">
+	<p:dialog id="dialogAdicionarVendedor" header="Adicionar Vendedor" 
+		styleClass="ui-dialog-topo" modal="false" dynamic="true" resizable="false"
+		widgetVar="dlgAdicionarVendedor" width="600" height="160">
 		
 		<p:messages id="messagesAdicionarVendedor" />
 
@@ -42,11 +32,11 @@
 					value="Adicionar"
 					action="#{editarVendaMB.onClickAdicionarVendedor()}"
 					update="fieldsetVendedores, messagesAdicionarVendedor"
-					oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dialogAdicionarVendedor').hide(); }" >
+					oncomplete="hideDialogOnSuccess(xhr, status, args, PF('dlgAdicionarVendedor'))" >
 				</p:commandButton>
 				<p:commandButton id="botaoCancelar" 
 					value="Cancelar"
-					onclick="PF('dialogAdicionarVendedor').hide();" >
+					onclick="PF('dlgAdicionarVendedor').hide();" >
 				</p:commandButton>
 			</div>
 		</div>

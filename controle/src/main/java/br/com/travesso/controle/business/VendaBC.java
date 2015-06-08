@@ -15,36 +15,31 @@ import br.gov.frameworkdemoiselle.template.DelegateCrud;
 
 @BusinessController
 public class VendaBC extends DelegateCrud<Venda, Integer, VendaDAO> {
-	
+
 	private static final long serialVersionUID = 1L;
-	
-//    @Inject
-//    private MessageContext messageContext;
-//	
+
 	@Inject
 	private ContaReceberBC contaReceberBC;
-	
-	public void registrarVenda(Venda venda){
+
+	public void registrarVenda(Venda venda) {
 		getDelegate().insert(venda);
-		//contaReceberBC.inserirContasReceber(venda);
 	}
-	
-	public void validarInclusaoVendaVendedor(Vendedor vendedor, List<VendaVendedor> vendasVendedores) throws NegocioException{
+
+	public void validarInclusaoVendaVendedor(Vendedor vendedor,
+			List<VendaVendedor> vendasVendedores) throws NegocioException {
 		if (ehVendedorJaIncluido(vendedor, vendasVendedores)) {
 			throw new NegocioException(ErrorMessage.ER001);
 		}
 	}
-	
-	private boolean ehVendedorJaIncluido(Vendedor vendedor, List<VendaVendedor> vvIncluido) {
+
+	private boolean ehVendedorJaIncluido(Vendedor vendedor,
+			List<VendaVendedor> vvIncluido) {
 		for (VendaVendedor vv : vvIncluido) {
 			if (vendedor != null && vendedor.equals(vv.getVendedor())) {
-				//if (vendedor.getId() == null || !vv.getVendedor().getId().equals(vendedor.getId())) {
-					return true;
-				//}
+				return true;
 			}
 		}
 		return false;
 	}
-	
 
 }
